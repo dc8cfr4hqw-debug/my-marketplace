@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="UTF-8">
+  <title>Login</title>
+</head>
+<body>
+
+<h1>TEST 123</h1>
+<h2>Login</h2>
+
+<form id="loginForm">
+  <input type="email" id="email" placeholder="Email" required>
+  <button type="submit">Se connecter</button>
+</form>
+
+<script>
+document.getElementById("loginForm").addEventListener("submit", async function(e) {
+  e.preventDefault();
+
+  const email = document.getElementById("email").value;
+  const password = prompt("Mot de passe :");
+
+  try {
+    const response = await fetch("/login", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json"
+      },
+      body: JSON.stringify({ email, password })
+    });
+
+    const data = await response.json();
+
+    if (data.success) {
+      localStorage.setItem("token", data.token);
+      window.location.href = "/dashboard.html";
+    } else {
+      alert(data.error);
+    }
+
+  } catch (err) {
+    console.error("Erreur JS :", err);
+    alert("Erreur connexion serveur");
+  }
+});
+</script>
+
+</body>
+</html>

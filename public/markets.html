@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Marchés</title>
+</head>
+<body>
+
+<h1>Marchés</h1>
+<div id="markets"></div>
+
+<script>
+async function loadMarkets() {
+  const response = await fetch("/markets");
+  const data = await response.json();
+
+  const container = document.getElementById("markets");
+  container.innerHTML = "";
+
+  data.forEach(market => {
+
+    const color = market.variation >= 0 ? "green" : "red";
+
+    container.innerHTML += `
+      <h2>${market.name} (${market.symbol})</h2>
+      <p>Prix : $${market.price}</p>
+      <p style="color:${color}">
+        Variation : ${market.variation}%
+      </p>
+      <hr/>
+    `;
+  });
+}
+
+loadMarkets();
+setInterval(loadMarkets, 10000);
+</script>
+
+</body>
+</html>
+
