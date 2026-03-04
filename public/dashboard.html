@@ -2,44 +2,64 @@
 <html>
 <head>
   <title>Dashboard</title>
+  <link rel="stylesheet" href="css/style.css">
 </head>
 <body>
-  <h1>Bienvenue</h1>
-  <h2 id="balance">Chargement...</h2>
+
+<div class="container">
+  <div class="card">
+    <h1>Bienvenue</h1>
+    <h2 id="balance">Chargement...</h2>
+  </div>
+
+  <div class="card" style="margin-top:20px;">
+    <h3>Portfolio</h3>
+    <div id="markets"></div>
+  </div>
+</div>
 
 <script>
 async function getBalance() {
   const token = localStorage.getItem("token");
-
   if (!token) {
     window.location.href = "/";
     return;
   }
 
   const response = await fetch("http://localhost:3000/balance", {
-    headers: {
-      "Authorization": "Bearer " + token
-    }
+    headers: { "Authorization": "Bearer " + token }
   });
 
-  if (response.status === 401 || response.status === 403) {
-    localStorage.removeItem("token");
-    window.location.href = "/";
-    return;
-  }
+  const data = await response.json();
+  document.getElementById("balance").innerText = "Votre solde : $" + data.balance;
+}
 
+async function loadMarkets() {
+  const response = await fetch("http://localhost:3000/markets");
   const data = await response.json();
 
-  document.getElementById("balance").innerText =
-    "Votre solde : " + data.balance + "$";
+  const container = document.getElementById("markets");
+  container.innerHTML = "";
+
+  data.forEach(coin => {
+    const change = coin.price_change_percentage_24h;
+    const color = change >= 0 ? "lime" : "red";
+
+    container.innerHTML += `
+      <div style="margin-bottom:10px;">
+        <strong>${coin.name}</strong> — $${coin.current_price}
+        <span style="color:${color}">
+          (${change.toFixed(2)}%)
+        </span>
+      </div>
+    `;
+  });
 }
 
 getBalance();
-</script>
-getBalance();
+loadMarkets();
+setInterval(loadMarkets, 5000);
 </script>
 
-    getBalance();
-  </script>
 </body>
 </html>

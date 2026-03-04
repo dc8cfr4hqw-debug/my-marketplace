@@ -8,8 +8,14 @@ const rateLimit = require("express-rate-limit");
 const helmet = require("helmet");
 const cors = require("cors");
 const { Pool } = require("pg");
+const fetch = require("node-fetch");
 
 const app = express();
+
+const PORT = 3000;
+
+app.use(express.json());
+
 
 app.use(cors());
 app.use(express.json());
@@ -23,8 +29,12 @@ const limiter = rateLimit({
   windowMs: 15 * 60 * 1000,
   max: 100
 });
+// 🚫 Désactive l’application globale du rate limiter
+// app.use(limiter);
 
-app.use(limiter);
+// 🔒 Limite seulement certaines routes sensibles
+app.use("/login", limiter);
+app.use("/register", limiter);
 // ==========================
 // AUTH MIDDLEWARE
 // ==========================
@@ -53,18 +63,35 @@ app.use(limiter);
 // ==========================
 // DATABASE
 // ==========================
-
 const pool = new Pool({
   user: "WooBarber",
-  host: "localhost",
-  database: "mymarketplace",
+  host: "127.0.0.1",
+  database: "postgres",
   password: "",
   port: 5432,
 });
+
 // ==========================
 // LOGIN
 // ==========================
+app.post("/register", async (req, res) => {
+  try {
+    const { email, password } = req.body;
 
+    const hashedPassword = await bcrypt.hash(password, 10);
+
+    await pool.query(
+      "INSERT INTO users (email, password) VALUES ($1, $2)",
+      [email, hashedPassword]
+    );
+
+    res.json({ success: true });
+
+  } catch (error) {
+    console.log("Register error:", error);
+    res.status(500).json({ error: "Registration failed" });
+  }
+});
 app.post("/login", async (req, res) => {
   try {
     const { email, password } = req.body;
@@ -887,13 +914,15 @@ app.get("/balance", authenticateToken, async (req, res) => {
       [req.user.id]
     );
 
-    res.json({
-      balance: result.rows[0].balance
-    });
+    if (result.rows.length === 0) {
+      return res.status(404).json({ error: "User not found" });
+    }
+
+    res.json({ balance: result.rows[0].balance });
 
   } catch (error) {
-    console.error(error);
-    res.status(500).json({ error: "Balance error" });
+    console.log("Balance error:", error);
+    res.status(500).json({ error: "Server error" });
   }
 });
 app.post("/login", async (req, res) => {
@@ -929,6 +958,71 @@ app.post("/login", async (req, res) => {
   }
 });
 
-app.listen(3000, () => {
-  console.log("Serveur actif sur le port 3000");
+app.get("/markets", async (req, res) => {
+  try {
+    const response = await fetch(
+      "https://api.coingecko.com/api/v3/simple/price?ids=bitcoin,ethereum,solana&vs_currencies=usd"
+    );
+
+    const data = await response.json();
+    res.json(data);
+
+  } catch (error) {
+    res.status(500).json({ error: "Market fetch failed" });
+  }
 });
+
+app.get("/markets", async (req, res) => {
+  try {
+    const response = await fetch(
+      "https://api.coingecko.com/api/v3/coins/markets?vs_currency=usd&ids=bitcoin,ethereum,solana"
+    );
+
+    const data = await response.json();
+    res.json(data);
+
+  } catch (error) {
+    res.status(500).json({ error: "Market fetch failed" });
+  }
+});
+// ==========================
+// CREATE PAYMENT
+// ==========================
+
+app.post("/create-payment", async (req, res) => {
+  try {
+    const { amount, currency, coin } = req.body;
+
+    if (!amount || !currency || !coin) {
+      return res.status(400).json({ error: "Missing parameters" });
+    }
+
+    const response = await fetch("https://wolvpay.com/api/v1", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+        "Authorization": `Bearer ${process.env.WOLVPAY_API_KEY}`
+      },
+      body: JSON.stringify({
+        amount: amount,
+        currency: currency,
+        coin: coin
+      })
+    });
+
+    const data = await response.json();
+
+    console.log("RAW RESPONSE:", data);
+
+    res.json(data);
+
+  } catch (error) {
+    console.error("FULL ERROR:", error);
+    res.status(500).json({ error: error.message });
+  }
+});
+
+app.listen(PORT, () => {
+  console.log("Serveur actif sur le port " + PORT);
+});
+

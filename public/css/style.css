@@ -1,0 +1,141 @@
+body {
+  margin: 0;
+  background: #0b0f19;
+  color: white;
+  font-family: -apple-system, BlinkMacSystemFont, sans-serif;
+}
+
+.layout {
+  display: flex;
+  height: 100vh;
+}
+
+.sidebar {
+  width: 220px;
+  background: #0f172a;
+  padding: 30px;
+  border-right: 1px solid #1f2937;
+}
+
+.sidebar h2 {
+  color: #7c3aed;
+}
+
+.sidebar ul {
+  list-style: none;
+  padding: 0;
+  margin-top: 30px;
+}
+
+.sidebar li {
+  margin-bottom: 15px;
+  color: #9ca3af;
+  cursor: pointer;
+  transition: 0.2s;
+}
+
+.sidebar li:hover {
+  color: white;
+  transform: translateX(4px);
+}
+
+.main {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+}
+
+.topbar {
+  height: 60px;
+  background: #111827;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 0 30px;
+  border-bottom: 1px solid #1f2937;
+}
+
+.user-dot {
+  width: 12px;
+  height: 12px;
+  background: #7c3aed;
+  border-radius: 50%;
+  box-shadow: 0 0 10px #7c3aed;
+}
+
+.content {
+  padding: 40px;
+  display: grid;
+  grid-template-columns: 2fr 1fr;
+  gap: 20px;
+}
+
+.card {
+  background: #111827;
+  padding: 30px;
+  border-radius: 16px;
+  transition: 0.3s;
+}
+
+.card:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 20px 40px rgba(124, 58, 237, 0.2);
+}
+
+.balance-card {
+  background: linear-gradient(135deg, #111827, #1e1b4b);
+}
+
+.balance {
+  font-size: 36px;
+  margin: 20px 0;
+}
+
+.actions {
+  display: flex;
+  gap: 10px;
+}
+
+.btn {
+  flex: 1;
+  padding: 12px;
+  border-radius: 10px;
+  border: none;
+  background: #7c3aed;
+  color: white;
+  cursor: pointer;
+  transition: 0.2s;
+}
+
+.btn:hover {
+  background: #6d28d9;
+  transform: scale(1.05);
+}
+
+.small-card p {
+  margin: 8px 0;
+  color: #d1d5db;
+}
+
+.chart-card {
+  grid-column: span 2;
+}
+
+.fake-chart {
+  height: 120px;
+  margin-top: 20px;
+  background: linear-gradient(
+    90deg,
+    #7c3aed 0%,
+    #4c1d95 50%,
+    #7c3aed 100%
+  );
+  background-size: 200% 100%;
+  animation: move 3s linear infinite;
+  border-radius: 8px;
+}
+
+@keyframes move {
+  0% { background-position: 0% 0; }
+  100% { background-position: 200% 0; }
+}
