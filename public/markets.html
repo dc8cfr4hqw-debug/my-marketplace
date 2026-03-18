@@ -1,0 +1,212 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Neura | Markets</title>
+  <link rel="stylesheet" href="/app/dist/app.css" />
+  <link rel="shortcut icon" href="/assets/images/logo/favicon.png" />
+  <style>
+    body { background:#05070c; color:#e8f0ff; }
+    .mk-page { padding:26px 0 56px; }
+    .mk-hero { display:flex; justify-content:space-between; align-items:flex-end; gap:12px; flex-wrap:wrap; margin-bottom:18px; }
+    .mk-hero h2 { margin:0; font-size:44px; font-weight:800; letter-spacing:-.02em; }
+    .mk-hero p { margin:8px 0 0; color:#dbe8ff; }
+    .mk-search-wrap { display:flex; align-items:center; gap:10px; min-width:min(100%,420px); }
+    .mk-search { width:100%; min-height:46px; border:1px solid #213249; border-radius:12px; background:#0c1523; color:#dce9fb; padding:0 14px; }
+    .mk-cards { display:grid; grid-template-columns:repeat(3,minmax(0,1fr)); gap:14px; margin-bottom:20px; }
+    .mk-card { background:linear-gradient(160deg,rgba(9,16,27,.95),rgba(7,13,22,.95)); border:1px solid rgba(74,102,146,.3); border-radius:16px; padding:16px; position:relative; overflow:hidden; }
+    .mk-card::after { content:""; position:absolute; right:-50px; top:-50px; width:150px; height:150px; border-radius:50%; background:radial-gradient(circle,rgba(36,126,255,.2),rgba(0,0,0,0)); }
+    .mk-card .k { color:#8fa3bf; font-size:13px; margin-bottom:8px; }
+    .mk-card .v { font-size:30px; font-weight:800; margin:2px 0 8px; }
+    .mk-card .s { display:inline-flex; align-items:center; gap:6px; font-size:13px; font-weight:700; padding:5px 10px; border-radius:999px; }
+    .mk-card .s.up { color:#18c886; background:rgba(24,200,134,.12); }
+    .mk-card .s.down { color:#ef4f5f; background:rgba(239,79,95,.14); }
+    .mk-aiq { background:linear-gradient(115deg,rgba(6,18,35,.95),rgba(4,14,28,.9)); border:1px solid rgba(73,117,177,.42); border-radius:16px; padding:16px; margin:0 0 16px; display:grid; grid-template-columns:1.3fr .8fr; gap:12px; }
+    .mk-aiq h4 { margin:0 0 6px; font-size:20px; }
+    .mk-aiq p { margin:0; color:#9eb2cc; font-size:13px; }
+    .mk-aiq-price { text-align:right; }
+    .mk-aiq-price strong { display:block; font-size:30px; line-height:1; margin-bottom:6px; }
+    .mk-aiq-price .down { color:#ef4f5f; font-weight:700; }
+    .mk-table-wrap { background:#090f1b; border:1px solid rgba(74,102,146,.33); border-radius:16px; overflow:hidden; }
+    .mk-table-head { display:flex; align-items:center; justify-content:space-between; gap:10px; padding:14px 16px; border-bottom:1px solid #1b2b42; }
+    .mk-table-head h4 { margin:0; font-size:20px; }
+    .mk-table-scroll { overflow:auto; }
+    .mk-table { width:100%; border-collapse:collapse; min-width:960px; }
+    .mk-table th, .mk-table td { padding:13px 10px; border-bottom:1px solid #162438; text-align:left; white-space:nowrap; }
+    .mk-table th { color:#8fa4c1; font-size:12px; font-weight:600; position:sticky; top:0; background:#0b1220; z-index:1; }
+    .mk-row { transition:background .2s ease, transform .2s ease; }
+    .mk-row:hover { background:rgba(36,126,255,.08); }
+    .mk-coin { display:flex; align-items:center; gap:10px; font-weight:700; color:#f5f8ff; }
+    .mk-badge { width:30px; height:30px; border-radius:50%; display:inline-flex; align-items:center; justify-content:center; font-size:14px; color:#fff; box-shadow:0 8px 16px rgba(0,0,0,.35); }
+    .mk-badge [class^="icon-"], .mk-badge [class*=" icon-"] { font-size:15px; line-height:1; }
+    .mk-pair { color:#88a0bf; font-size:12px; }
+    .mk-change.up { color:#18c886; font-weight:700; }
+    .mk-change.down { color:#ef4f5f; font-weight:700; }
+    .mk-trade { display:inline-flex; align-items:center; gap:7px; border:1px solid #3564a2; border-radius:999px; padding:8px 12px; text-decoration:none; color:#d8e8ff; font-weight:700; background:rgba(22,47,80,.5); transition:all .2s ease; }
+    .mk-trade:hover { color:#fff; border-color:#3f87ff; background:rgba(39,112,235,.22); transform:translateY(-1px); }
+    .mk-trade-grid { display:grid; grid-template-columns:1.45fr .85fr; gap:14px; margin-top:14px; }
+    .mk-quick { background:#090f1b; border:1px solid rgba(74,102,146,.33); border-radius:16px; padding:16px; }
+    .mk-quick h5 { margin:0 0 10px; }
+    .mk-quick .rowx { display:grid; grid-template-columns:1fr 1fr; gap:10px; margin-bottom:10px; }
+    .mk-quick .in { width:100%; min-height:42px; border:1px solid #2b3f5d; border-radius:10px; background:#121e31; color:#e7f0ff; padding:0 12px; }
+    .mk-quick .act { display:grid; grid-template-columns:1fr 1fr; gap:10px; margin-top:8px; }
+    .mk-quick .btnx { min-height:42px; border:0; border-radius:999px; font-weight:800; color:#fff; }
+    .mk-quick .btnx.buy { background:#2fbf71; }
+    .mk-quick .btnx.sell { background:#ef4f5f; }
+    .mk-quick .status { min-height:18px; font-size:12px; color:#9bb1ce; margin-top:8px; }
+    .mk-icon { display:inline-flex; align-items:center; justify-content:center; width:18px; height:18px; margin-right:6px; color:#cce0ff; }
+    .mk-logo-strip { display:flex; align-items:center; gap:14px; color:#b7c9e2; margin-top:10px; font-size:13px; }
+    .mk-logo-strip span { display:inline-flex; align-items:center; gap:6px; }
+    .mk-bottom-conn { position:static; margin:14px auto 24px; max-width:min(1200px,92vw); min-height:40px; background:rgba(8,15,27,.88); border:1px solid rgba(81,114,160,.35); border-radius:12px; display:flex; align-items:center; justify-content:space-between; padding:0 14px; font-size:13px; color:#94aecf; }
+    .mk-bottom-conn .ok { color:#1fd08a; font-weight:700; }
+    .mk-bottom-conn .bad { color:#ef6676; font-weight:700; }
+    body { padding-bottom:0; }
+    @media (max-width:1199px){ .mk-cards { grid-template-columns:1fr; } .mk-hero h2{font-size:35px;} .mk-aiq{grid-template-columns:1fr;} .mk-aiq-price{text-align:left;} }
+    @media (max-width:1199px){ .mk-trade-grid { grid-template-columns:1fr; } }
+  </style>
+</head>
+<body class="body header-fixed home-2 markets">
+  <header id="header_main" class="header">
+    <div class="container-fluid">
+      <div class="row">
+        <div class="col-12">
+          <div class="header__body d-flex justify-content-between">
+            <div class="header__left">
+              <div class="logo">
+                <a class="light" href="/index.html"><img id="site-logo" src="/assets/images/logo/logo-dark.png" alt="Neura" width="140" height="38" /></a>
+                <a class="dark" href="/index.html"><img src="/assets/images/logo/logo-dark.png" alt="Neura" width="140" height="38" /></a>
+              </div>
+              <div class="left__main">
+                <nav id="main-nav" class="main-nav">
+                  <ul id="menu-primary-menu" class="menu">
+                    <li class="menu-item-has-children"><a href="#">Buy Crypto</a></li>
+                    <li class="menu-item current-item"><a href="/markets.html">Markets</a></li>
+                    <li class="menu-item"><a href="/blog-default.html">Blog</a></li>
+                  </ul>
+                </nav>
+              </div>
+            </div>
+            <div class="header__right"></div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </header>
+
+  <section class="mk-page">
+    <div class="container">
+      <div class="mk-hero">
+        <div>
+          <h2>Markets</h2>
+          <p>Track live prices, 24h moves, and volume across top crypto pairs.</p>
+          <div class="mk-logo-strip">
+            <span><iconify-icon icon="simple-icons:binance"></iconify-icon> Binance</span>
+            <span><iconify-icon icon="simple-icons:coinbase"></iconify-icon> Coinbase</span>
+            <span><iconify-icon icon="tabler:chart-candle"></iconify-icon> Candle Data</span>
+          </div>
+        </div>
+        <div class="mk-search-wrap">
+          <i class="fa-solid fa-magnifying-glass" style="color:#8da4c0;"></i>
+          <input id="marketSearch" class="mk-search" type="search" placeholder="Search coin or pair" />
+        </div>
+      </div>
+
+      <section class="mk-cards" id="marketTopCards">
+        <article class="mk-card"><div class="k">24h Highest Volume</div><div class="v">-</div><span class="s">-</span></article>
+        <article class="mk-card"><div class="k">24h Biggest Gain</div><div class="v">-</div><span class="s">-</span></article>
+        <article class="mk-card"><div class="k">24h Biggest Drop</div><div class="v">-</div><span class="s">-</span></article>
+      </section>
+
+      <section class="mk-aiq">
+        <div>
+          <h4>AI ETF Spotlight: Global X AIQ</h4>
+          <p>Global X Artificial Intelligence & Technology ETF (NASDAQ: AIQ). Track this AI-focused fund alongside crypto markets and open the dedicated AIQ trade interface.</p>
+        </div>
+        <div class="mk-aiq-price">
+          <strong id="mkAiqPrice">$48.35</strong>
+          <span id="mkAiqChange" class="down">-0.50% (-$0.24)</span>
+          <div style="margin-top:10px;"><a class="mk-trade" href="/trade.html?symbol=aiq"><iconify-icon icon="tabler:chart-candle"></iconify-icon><span>Trade AIQ</span></a></div>
+        </div>
+      </section>
+
+      <section class="mk-table-wrap">
+        <div class="mk-table-head">
+          <h4>Spot Market</h4>
+          <span style="color:#8da3bf;font-size:13px;">Live data refreshes automatically</span>
+        </div>
+        <div class="mk-table-scroll">
+          <table class="mk-table">
+            <thead>
+              <tr>
+                <th>#</th>
+                <th>Product</th>
+                <th>Price</th>
+                <th>24h Change</th>
+                <th>24h High</th>
+                <th>24h Low</th>
+                <th>24h Volume</th>
+                <th>Action</th>
+              </tr>
+            </thead>
+            <tbody id="marketsTableBody"></tbody>
+          </table>
+        </div>
+      </section>
+
+      <section class="mk-trade-grid">
+        <div class="mk-quick">
+          <h5>Quick Trade</h5>
+          <div class="rowx">
+            <div>
+              <label class="muted" style="display:block;font-size:12px;margin-bottom:6px;">Selected Pair</label>
+              <input id="mkSelectedPair" class="in" type="text" value="BTC/USDT" readonly />
+            </div>
+            <div>
+              <label class="muted" style="display:block;font-size:12px;margin-bottom:6px;">Live Price (USD)</label>
+              <input id="mkSelectedPrice" class="in" type="text" value="0.00" readonly />
+            </div>
+          </div>
+          <div class="rowx">
+            <div>
+              <label class="muted" style="display:block;font-size:12px;margin-bottom:6px;">Amount (USD)</label>
+              <input id="mkOrderUsd" class="in" type="number" min="1" step="0.01" value="100" />
+            </div>
+            <div>
+              <label class="muted" style="display:block;font-size:12px;margin-bottom:6px;">Estimated Quantity</label>
+              <input id="mkOrderQty" class="in" type="text" value="0.00000000" readonly />
+            </div>
+          </div>
+          <div class="act">
+            <button id="mkBuyBtn" class="btnx buy" type="button"><iconify-icon icon="lucide:badge-dollar-sign"></iconify-icon> Buy</button>
+            <button id="mkSellBtn" class="btnx sell" type="button"><iconify-icon icon="lucide:badge-dollar-sign"></iconify-icon> Sell</button>
+          </div>
+          <div id="mkOrderStatus" class="status"></div>
+        </div>
+        <div class="mk-quick">
+          <h5>Market Actions</h5>
+          <p class="muted" style="margin:6px 0 14px;">Open full trade interface for charting, depth, and advanced controls.</p>
+          <a id="mkOpenTrade" class="mk-trade" href="/trade.html?symbol=btc"><iconify-icon icon="tabler:chart-candle"></iconify-icon><span>Open Trade Terminal</span></a>
+          <div style="height:12px;"></div>
+          <a class="mk-trade" href="/user-center/assets/deposit/fiat.html"><iconify-icon icon="lucide:badge-dollar-sign"></iconify-icon><span>Crypto Deposit</span></a>
+          <div style="height:12px;"></div>
+          <a class="mk-trade" href="/user-center/assets/dashboard.html"><iconify-icon icon="tabler:chart-candle"></iconify-icon><span>Go to Dashboard</span></a>
+        </div>
+      </section>
+    </div>
+  </section>
+
+  <div class="mk-bottom-conn">
+    <div id="mkConnLeft"><i class="fa-solid fa-circle-notch fa-spin"></i> Connecting market stream...</div>
+    <div id="mkConnRight">-</div>
+  </div>
+
+  <script src="/app/js/jquery.min.js"></script>
+  <script src="/app/js/popper.min.js"></script>
+  <script src="/app/js/bootstrap.min.js"></script>
+  <script src="https://code.iconify.design/iconify-icon/3.1.1/iconify-icon.min.js"></script>
+  <script src="/app/js/app.js"></script>
+  <script src="/app/js/markets-live.js"></script>
+</body>
+</html>

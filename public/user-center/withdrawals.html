@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <script>(function(){var m=document.cookie.match(/(?:^|;\s*)theme=([^;]+)/);var t=m?decodeURIComponent(m[1]):"is_dark";if(t!=="is_dark"&&t!=="is_light")t="is_dark";document.documentElement.classList.add(t);})();</script>
+  <style>html.is_dark,html.is_dark body{background:#05070c!important;color:#e7eef8;}html.is_light,html.is_light body{background:#ffffff!important;}</style>
+  <title>Neura | Withdrawals</title>
+  <link rel="stylesheet" href="/app/dist/app.css" />
+  <link rel="stylesheet" href="/app/dist/magnific-popup.css" />
+  <link rel="shortcut icon" href="/assets/images/logo/favicon.png" />
+  <style>
+    .w-page { padding:34px 0 56px; }
+    .w-shell { display:grid; grid-template-columns:260px 1fr; gap:24px; }
+    .w-sidebar, .w-card { background: rgba(17,25,40,.55); border:1px solid rgba(148,163,184,.22); border-radius:16px; backdrop-filter: blur(8px); }
+    .w-sidebar { padding:14px; position:sticky; top:110px; height:max-content; }
+    .w-sidebar a { display:block; color:#ced8ea; text-decoration:none; font-weight:600; font-size:15px; padding:10px 12px; border-radius:10px; margin-bottom:6px; }
+    .w-sidebar a.active, .w-sidebar a:hover { background:#1a2334; color:#fff; }
+    .w-main { display:grid; gap:18px; }
+    .w-banner { background:linear-gradient(120deg, rgba(34,89,201,.35), rgba(16,185,129,.22)); border:1px solid rgba(59,130,246,.35); border-radius:14px; padding:14px 16px; font-size:15px; }
+    .w-card { padding:22px; }
+    .w-row { display:grid; grid-template-columns:1fr 1fr; gap:12px; }
+    .w-input { width:100%; min-height:44px; border:1px solid #31455f; border-radius:10px; background:#131c2a; color:#e5eef9; padding:0 12px; }
+    .w-note { color:#9eb0ca; margin-top:8px; font-size:13px; }
+    body.is_light .w-sidebar, body.is_light .w-card { background:rgba(255,255,255,.92); border-color:#d8e1ef; }
+    body.is_light .w-sidebar a { color:#334155; }
+    body.is_light .w-sidebar a.active, body.is_light .w-sidebar a:hover { background:#eaf1ff; color:#0f172a; }
+    body.is_light .w-input { background:#fff; color:#0f172a; border-color:#cad8ea; }
+    @media (max-width: 1199px){ .w-shell { grid-template-columns:1fr; } .w-sidebar { position:static; } .w-row { grid-template-columns:1fr; } }
+  </style>
+</head>
+<body class="body header-fixed">
+  <header id="header_main" class="header">
+    <div class="container-fluid">
+      <div class="row">
+        <div class="col-12">
+          <div class="header__body d-flex justify-content-between">
+            <div class="header__left">
+              <div class="logo">
+                <a class="light" href="/index.html">
+                  <img id="site-logo" src="/assets/images/logo/logo-dark.png" alt="Neura" width="148" height="38" />
+                </a>
+                <a class="dark" href="/index.html">
+                  <img src="/assets/images/logo/logo-dark.png" alt="Neura" width="148" height="38" />
+                </a>
+              </div>
+              <div class="left__main">
+                <nav id="main-nav" class="main-nav">
+                  <ul id="menu-primary-menu" class="menu">
+                    <li class="menu-item"><a href="/user-center/assets/deposit/fiat.html">Deposit</a></li>
+                    <li class="menu-item"><a href="/markets.html">Markets</a></li>
+                    <li class="menu-item"><a href="/blog-default.html">News</a></li>
+                  </ul>
+                </nav>
+              </div>
+            </div>
+            <div class="header__right"></div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </header>
+
+  <section class="w-page">
+    <div class="container">
+      <div class="w-shell">
+        <aside class="w-sidebar">
+          <a href="/user-center/assets/dashboard.html"><i class="fa-solid fa-chart-pie" style="margin-right:8px;"></i>Asset Overview</a>
+          <a href="/user-center/assets/deposit/fiat.html"><i class="fa-solid fa-wallet" style="margin-right:8px;"></i>Crypto Deposit</a>
+          <a class="active" href="/user-center/withdrawals.html"><i class="fa-solid fa-money-bill-transfer" style="margin-right:8px;"></i>Withdrawals</a>
+          <a href="/user-center/customer-advisors.html"><i class="fa-solid fa-headset" style="margin-right:8px;"></i>Financial Advisors</a>
+          <a href="/user-center/contact.html"><i class="fa-regular fa-envelope" style="margin-right:8px;"></i>Contact</a>
+          <a href="/markets.html"><i class="fa-solid fa-chart-line" style="margin-right:8px;"></i>Markets</a>
+          <a href="/user-center/profile-page.html"><i class="fa-solid fa-user" style="margin-right:8px;"></i>Profile</a>
+        </aside>
+        <main class="w-main">
+          <div class="w-banner">Withdrawals are available from your cash balance. If no amount is available, you will see a no-balance notice and cannot submit a request.</div>
+          <div class="w-card">
+            <h3 class="heading" style="margin-top:0;">Withdraw Funds</h3>
+            <div class="w-row">
+              <div>
+                <label class="w-note" for="availableBalance">Available Balance</label>
+                <input class="w-input" id="availableBalance" type="text" readonly value="$0.00" />
+              </div>
+              <div>
+                <label class="w-note" for="withdrawAmount">Withdrawal Amount (USD)</label>
+                <input class="w-input" id="withdrawAmount" type="number" min="1" step="0.01" placeholder="Enter amount" />
+              </div>
+            </div>
+            <p id="withdrawStatus" class="w-note"></p>
+            <button class="btn-action" id="submitWithdrawBtn" type="button">Submit Withdrawal</button>
+          </div>
+        </main>
+      </div>
+    </div>
+  </section>
+  <script src="/app/js/jquery.min.js"></script>
+  <script src="/app/js/popper.min.js"></script>
+  <script src="/app/js/bootstrap.min.js"></script>
+  <script src="/app/js/app.js"></script>
+  <script src="/app/js/protected.js"></script>
+  <script src="/app/js/user-center-withdrawals.js"></script>
+</body>
+</html>

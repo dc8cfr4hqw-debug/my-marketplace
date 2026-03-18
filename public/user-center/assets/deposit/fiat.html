@@ -1,0 +1,160 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <script>(function(){var m=document.cookie.match(/(?:^|;\s*)theme=([^;]+)/);var t=m?decodeURIComponent(m[1]):"is_dark";if(t!=="is_dark"&&t!=="is_light")t="is_dark";document.documentElement.classList.add(t);})();</script>
+  <style>html.is_dark,html.is_dark body{background:#05070c!important;color:#e7eef8;}html.is_light,html.is_light body{background:#fff!important;}</style>
+  <title>Crypto Deposit</title>
+  <link rel="stylesheet" href="/app/dist/app.css" />
+  <link rel="shortcut icon" href="/assets/images/logo/favicon.png" />
+  <style>
+    .uc-page { padding:34px 0 56px; }
+    .uc-grid { display:grid; grid-template-columns:260px 1fr; gap:24px; }
+    .uc-sidebar, .fiat-card { background:rgba(17,25,40,.55); border:1px solid rgba(148,163,184,.22); border-radius:16px; backdrop-filter:blur(8px); }
+    .uc-sidebar { padding:14px; position:sticky; top:110px; height:max-content; }
+    .uc-sidebar a { display:block; color:#ced8ea; text-decoration:none; font-weight:600; font-size:15px; padding:10px 12px; border-radius:10px; margin-bottom:6px; }
+    .uc-sidebar a.active, .uc-sidebar a:hover { background:#1a2334; color:#fff; }
+    .fiat-main { display:grid; gap:18px; }
+    .fiat-card { padding:20px; }
+    .fiat-promo { background:linear-gradient(120deg, rgba(38,97,222,.35), rgba(10,132,255,.18)); border:1px solid rgba(59,130,246,.3); border-radius:12px; padding:12px 14px; margin-bottom:16px; font-size:14px; }
+    .fiat-grid { display:grid; grid-template-columns:1.8fr 1fr; gap:20px; }
+    .fiat-row { display:grid; grid-template-columns:1fr 1fr; gap:12px; margin-bottom:12px; }
+    .fiat-field label { display:block; margin:0 0 6px; color:#98acc6; font-size:13px; }
+    .fiat-input { width:100%; min-height:44px; border-radius:8px; border:1px solid #32445d; background:#131c2b; color:#e5eef9; padding:0 12px; }
+    .fiat-submit { min-height:46px; border-radius:10px; border:1px solid #1677ff; background:#1677ff; color:#fff; font-weight:700; width:100%; }
+    .fiat-status { margin-top:10px; color:#92a4bf; font-size:13px; min-height:20px; }
+    .fiat-history { margin-top:20px; }
+    .fiat-table { width:100%; border-collapse:collapse; }
+    .fiat-table th, .fiat-table td { border-bottom:1px solid #27364c; padding:10px 6px; text-align:left; font-size:13px; }
+    .fiat-table th { color:#98acc6; font-weight:600; }
+    .flow-premium { margin-top:20px; background:linear-gradient(125deg, rgba(15,29,47,.96), rgba(9,20,34,.95)); border:1px solid rgba(78,122,189,.45); border-radius:18px; padding:20px; overflow:hidden; position:relative; }
+    .flow-premium::before { content:""; position:absolute; inset:auto -30% -45% auto; width:460px; height:460px; border-radius:50%; background:radial-gradient(circle, rgba(25,123,255,.26), rgba(0,0,0,0)); pointer-events:none; }
+    .flow-head { display:flex; align-items:center; justify-content:space-between; gap:12px; margin-bottom:14px; flex-wrap:wrap; }
+    .flow-brands { display:flex; gap:10px; align-items:center; flex-wrap:wrap; }
+    .brand-pill { display:inline-flex; align-items:center; gap:8px; padding:7px 12px; border-radius:999px; border:1px solid rgba(102,134,182,.4); background:rgba(13,24,38,.75); color:#d9e8ff; font-weight:700; }
+    .brand-pill i { color:#71aaff; }
+    .flow-grid { display:grid; grid-template-columns:repeat(3,minmax(0,1fr)); gap:12px; margin-top:8px; }
+    .flow-step { border:1px solid rgba(90,122,170,.35); border-radius:14px; padding:14px; background:rgba(9,18,29,.66); animation:flowFloat 3.8s ease-in-out infinite; }
+    .flow-step:nth-child(2){animation-delay:.2s;} .flow-step:nth-child(3){animation-delay:.4s;}
+    .flow-step i { font-size:20px; color:#6ea9ff; margin-bottom:8px; }
+    .flow-step h6 { margin:0 0 6px; font-size:15px; }
+    .flow-step p { margin:0; color:#9cb0cb; font-size:13px; line-height:1.45; }
+    .flow-links { margin-top:14px; display:flex; gap:10px; flex-wrap:wrap; }
+    .flow-link { display:inline-flex; align-items:center; gap:8px; padding:10px 14px; border-radius:999px; text-decoration:none; border:1px solid rgba(98,132,186,.45); background:rgba(14,27,43,.75); color:#e6f0ff; font-weight:700; }
+    .flow-link:hover { color:#fff; border-color:#4191ff; }
+    .flow-link img { height:18px; width:auto; }
+    .muted { color:#92a4bf; }
+    @keyframes flowFloat { 0%,100%{transform:translateY(0);} 50%{transform:translateY(-4px);} }
+    body.is_light .uc-sidebar, body.is_light .fiat-card { background:rgba(255,255,255,.92); border-color:#d8e1ef; }
+    body.is_light .uc-sidebar a { color:#334155; }
+    body.is_light .uc-sidebar a.active, body.is_light .uc-sidebar a:hover { background:#eaf1ff; color:#0f172a; }
+    body.is_light .fiat-input { background:#fff; color:#0f172a; border-color:#cad8ea; }
+    body.is_light .fiat-table th, body.is_light .fiat-table td { border-bottom-color:#e5ebf5; }
+    @media (max-width:1199px){ .uc-grid{grid-template-columns:1fr;} .uc-sidebar{position:static;} .fiat-grid{grid-template-columns:1fr;} .fiat-row{grid-template-columns:1fr;} .flow-grid{grid-template-columns:1fr;} }
+  </style>
+</head>
+<body class="body header-fixed">
+  <header id="header_main" class="header">
+    <div class="container-fluid"><div class="row"><div class="col-12"><div class="header__body d-flex justify-content-between">
+      <div class="header__left">
+        <div class="logo">
+          <a class="light" href="/index.html"><img id="site-logo" src="/assets/images/logo/logo-dark.png" alt="Neura" width="136" height="36" /></a>
+          <a class="dark" href="/index.html"><img src="/assets/images/logo/logo-dark.png" alt="Neura" width="136" height="36" /></a>
+        </div>
+        <div class="left__main"><nav id="main-nav" class="main-nav"><ul id="menu-primary-menu" class="menu"><li class="menu-item"><a href="/user-center/assets/deposit/fiat.html">Deposit</a></li><li class="menu-item"><a href="/markets.html">Markets</a></li><li class="menu-item"><a href="/blog-default.html">News</a></li></ul></nav></div>
+      </div>
+      <div class="header__right"></div>
+    </div></div></div></div>
+  </header>
+
+  <section class="uc-page">
+    <div class="container">
+      <div class="uc-grid">
+        <aside class="uc-sidebar">
+          <a href="/user-center/assets/dashboard.html"><i class="fa-solid fa-chart-pie" style="margin-right:8px;"></i>Asset Overview</a>
+          <a class="active" href="/user-center/assets/deposit/fiat.html"><i class="fa-solid fa-wallet" style="margin-right:8px;"></i>Crypto Deposit</a>
+          <a href="/user-center/withdrawals.html"><i class="fa-solid fa-money-bill-transfer" style="margin-right:8px;"></i>Withdrawals</a>
+          <a href="/user-center/customer-advisors.html"><i class="fa-solid fa-headset" style="margin-right:8px;"></i>Financial Advisors</a>
+          <a href="/user-center/contact.html"><i class="fa-regular fa-envelope" style="margin-right:8px;"></i>Contact</a>
+          <a href="/markets.html"><i class="fa-solid fa-chart-line" style="margin-right:8px;"></i>Trade</a>
+          <a href="/user-center/profile-page.html"><i class="fa-solid fa-user" style="margin-right:8px;"></i>Profile</a>
+        </aside>
+
+        <main class="fiat-main">
+          <div class="fiat-card">
+            <div class="fiat-promo">Create a secure checkout invoice and fund your account with BTC settlement via WolvPay.</div>
+            <div class="fiat-grid">
+              <div>
+                <form id="fiatDepositForm">
+                  <div class="fiat-row">
+                    <div class="fiat-field">
+                      <label for="fiatAmount">Deposit Amount (USD)</label>
+                      <input class="fiat-input" id="fiatAmount" type="number" min="20" step="1" value="100" />
+                    </div>
+                    <div class="fiat-field">
+                      <label for="fiatCoin">Receive coin</label>
+                      <input class="fiat-input" id="fiatCoin" type="text" value="BTC" readonly />
+                    </div>
+                  </div>
+                  <button class="fiat-submit" id="fiatSubmitBtn" type="submit">Create Invoice & Checkout</button>
+                  <p class="fiat-status" id="fiatStatus"></p>
+                </form>
+              </div>
+              <div class="fiat-card" style="padding:16px;">
+                <h5 style="margin:0 0 10px;">How it works</h5>
+                <ul class="muted" style="margin:0;padding-left:18px;line-height:1.65;">
+                  <li>Enter your USD deposit amount.</li>
+                  <li>Create a WolvPay invoice and open hosted checkout.</li>
+                  <li>Once payment settles, balance is credited automatically.</li>
+                </ul>
+              </div>
+            </div>
+
+            <section class="flow-premium">
+              <div class="flow-head">
+                <div>
+                  <h5 style="margin:0;">WolvPay + Coinbase Flow</h5>
+                  <p class="muted" style="margin:6px 0 0;">Use Coinbase with Apple Pay or Google Pay, then complete checkout with your WolvPay invoice link from this page.</p>
+                </div>
+                <div class="flow-brands">
+                  <span class="brand-pill"><i class="fa-brands fa-bitcoin"></i>WolvPay Checkout</span>
+                  <span class="brand-pill"><i class="fa-brands fa-coinbase"></i>Coinbase App</span>
+                </div>
+              </div>
+              <div class="flow-grid">
+                <article class="flow-step"><i class="fa-solid fa-mobile-screen-button"></i><h6>1. Buy BTC in Coinbase</h6><p>Open Coinbase, purchase BTC using Apple Pay or Google Pay, then keep funds ready for payment.</p></article>
+                <article class="flow-step"><i class="fa-solid fa-file-invoice-dollar"></i><h6>2. Create Invoice Here</h6><p>Set your amount and click <strong>Create Invoice & Checkout</strong>. This page generates your WolvPay checkout session.</p></article>
+                <article class="flow-step"><i class="fa-solid fa-shield-check"></i><h6>3. Complete and Get Credited</h6><p>Finish the payment in checkout. After confirmation, your USD balance updates automatically in the dashboard.</p></article>
+              </div>
+              <div class="flow-links">
+                <a class="flow-link" href="https://apps.apple.com/app/coinbase-buy-bitcoin-ether/id886427730" target="_blank" rel="noopener"><img src="/assets/images/icon/appstore.png" alt="App Store" />Coinbase on App Store</a>
+                <a class="flow-link" href="https://play.google.com/store/apps/details?id=com.coinbase.android" target="_blank" rel="noopener"><img src="/assets/images/icon/googleplay.png" alt="Google Play" />Coinbase on Google Play</a>
+                <a class="flow-link" href="https://www.coinbase.com/" target="_blank" rel="noopener"><i class="fa-solid fa-arrow-up-right-from-square"></i>Open Coinbase Web</a>
+              </div>
+            </section>
+          </div>
+
+          <div class="fiat-card fiat-history">
+            <h5 style="margin-top:0;">Deposit History</h5>
+            <div style="overflow:auto;">
+              <table class="fiat-table">
+                <thead><tr><th>Order</th><th>Provider Ref</th><th>Amount</th><th>Status</th><th>Date & Time</th><th>Checkout</th></tr></thead>
+                <tbody id="fiatHistoryBody"></tbody>
+              </table>
+            </div>
+          </div>
+        </main>
+      </div>
+    </div>
+  </section>
+
+  <script src="/app/js/jquery.min.js"></script>
+  <script src="/app/js/popper.min.js"></script>
+  <script src="/app/js/bootstrap.min.js"></script>
+  <script src="/app/js/app.js"></script>
+  <script src="/app/js/protected.js"></script>
+  <script src="/app/js/user-center-fiat-deposit.js"></script>
+</body>
+</html>

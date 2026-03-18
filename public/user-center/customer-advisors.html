@@ -1,0 +1,112 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <script>(function(){var m=document.cookie.match(/(?:^|;\s*)theme=([^;]+)/);var t=m?decodeURIComponent(m[1]):"is_dark";if(t!=="is_dark"&&t!=="is_light")t="is_dark";document.documentElement.classList.add(t);})();</script>
+  <style>html.is_dark,html.is_dark body{background:#05070c!important;color:#e7eef8;}html.is_light,html.is_light body{background:#ffffff!important;}</style>
+  <title>Neura | Financial Advisors</title>
+  <link rel="stylesheet" href="/app/dist/app.css" />
+  <link rel="stylesheet" href="/app/dist/magnific-popup.css" />
+  <link rel="shortcut icon" href="/assets/images/logo/favicon.png" />
+  <style>
+    .fa-page { padding:34px 0 56px; }
+    .fa-shell { display:grid; grid-template-columns:260px 1fr; gap:24px; }
+    .fa-sidebar, .fa-card { background: rgba(17,25,40,.55); border:1px solid rgba(148,163,184,.22); border-radius:16px; backdrop-filter: blur(8px); }
+    .fa-sidebar { padding:14px; position:sticky; top:110px; height:max-content; }
+    .fa-sidebar a { display:block; color:#ced8ea; text-decoration:none; font-weight:600; font-size:15px; padding:10px 12px; border-radius:10px; margin-bottom:6px; }
+    .fa-sidebar a.active, .fa-sidebar a:hover { background:#1a2334; color:#fff; }
+    .fa-main { display:grid; gap:18px; }
+    .fa-card { padding:22px; }
+    .fa-grid { display:grid; grid-template-columns:repeat(3, minmax(0,1fr)); gap:14px; }
+    .fa-widget { border:1px solid rgba(99,122,158,.32); border-radius:14px; padding:16px; background:rgba(11,19,30,.4); }
+    .fa-widget i { font-size:20px; color:#5ca5ff; margin-bottom:8px; }
+    .fa-widget h6 { margin:0 0 4px; font-size:17px; }
+    .fa-widget p { margin:0; color:#9eb0ca; font-size:14px; line-height:1.45; }
+    .fa-call { margin-top:12px; border-radius:12px; padding:12px 14px; background:linear-gradient(120deg, rgba(24,88,204,.36), rgba(16,185,129,.2)); border:1px solid rgba(59,130,246,.35); }
+    body.is_light .fa-sidebar, body.is_light .fa-card { background:rgba(255,255,255,.92); border-color:#d8e1ef; }
+    body.is_light .fa-sidebar a { color:#334155; }
+    body.is_light .fa-sidebar a.active, body.is_light .fa-sidebar a:hover { background:#eaf1ff; color:#0f172a; }
+    body.is_light .fa-widget { background:#fff; border-color:#d8e2f0; }
+    body.is_light .fa-widget p { color:#5a6a82; }
+    @media (max-width:1199px){ .fa-shell { grid-template-columns:1fr; } .fa-sidebar { position:static; } }
+    @media (max-width:900px){ .fa-grid { grid-template-columns:1fr; } }
+  </style>
+</head>
+<body class="body header-fixed">
+  <header id="header_main" class="header">
+    <div class="container-fluid">
+      <div class="row"><div class="col-12">
+        <div class="header__body d-flex justify-content-between">
+          <div class="header__left">
+            <div class="logo">
+              <a class="light" href="/index.html"><img id="site-logo" src="/assets/images/logo/logo-dark.png" alt="Neura" width="148" height="38" /></a>
+              <a class="dark" href="/index.html"><img src="/assets/images/logo/logo-dark.png" alt="Neura" width="148" height="38" /></a>
+            </div>
+            <div class="left__main">
+              <nav id="main-nav" class="main-nav">
+                <ul id="menu-primary-menu" class="menu">
+                  <li class="menu-item"><a href="/user-center/assets/deposit/fiat.html">Deposit</a></li>
+                  <li class="menu-item"><a href="/markets.html">Markets</a></li>
+                  <li class="menu-item"><a href="/blog-default.html">News</a></li>
+                </ul>
+              </nav>
+            </div>
+          </div>
+          <div class="header__right"></div>
+        </div>
+      </div></div>
+    </div>
+  </header>
+
+  <section class="fa-page">
+    <div class="container">
+      <div class="fa-shell">
+        <aside class="fa-sidebar">
+          <a href="/user-center/assets/dashboard.html"><i class="fa-solid fa-chart-pie" style="margin-right:8px;"></i>Asset Overview</a>
+          <a href="/user-center/assets/deposit/fiat.html"><i class="fa-solid fa-wallet" style="margin-right:8px;"></i>Crypto Deposit</a>
+          <a href="/user-center/withdrawals.html"><i class="fa-solid fa-money-bill-transfer" style="margin-right:8px;"></i>Withdrawals</a>
+          <a class="active" href="/user-center/customer-advisors.html"><i class="fa-solid fa-headset" style="margin-right:8px;"></i>Financial Advisors</a>
+          <a href="/user-center/contact.html"><i class="fa-regular fa-envelope" style="margin-right:8px;"></i>Contact</a>
+          <a href="/markets.html"><i class="fa-solid fa-chart-line" style="margin-right:8px;"></i>Markets</a>
+          <a href="/user-center/profile-page.html"><i class="fa-solid fa-user" style="margin-right:8px;"></i>Profile</a>
+        </aside>
+        <main class="fa-main">
+          <div class="fa-card">
+            <h3 class="heading" style="margin-top:0;">Neura Financial Advisors (No Charge)</h3>
+            <p style="color:#9eb0ca;margin-top:8px;">This section is for free financial guidance. It is not technical customer support. Advisors help with portfolio planning, risk sizing, and long-term AI investment strategy at no cost.</p>
+            <div class="fa-grid" style="margin-top:16px;">
+              <div class="fa-widget">
+                <i class="fa-solid fa-phone-volume"></i>
+                <h6>Call an Advisor</h6>
+                <p>US line: +1 (800) 555-0148<br />EU line: +44 20 7946 0182</p>
+              </div>
+              <div class="fa-widget">
+                <i class="fa-solid fa-calendar-check"></i>
+                <h6>Book Session</h6>
+                <p>30-minute free planning session for risk profile, AI token allocation, and ETH exposure strategy.</p>
+              </div>
+              <div class="fa-widget">
+                <i class="fa-solid fa-shield-halved"></i>
+                <h6>Risk Review</h6>
+                <p>Get position-size guidance and downside scenario review before opening high-volatility trades.</p>
+              </div>
+            </div>
+            <div class="fa-call">
+              <strong>Hours:</strong> Monday to Friday, 8:00 AM - 8:00 PM (local timezone).<br />
+              <strong>Response SLA:</strong> Phone under 5 minutes, callback requests within 2 hours.
+            </div>
+          </div>
+        </main>
+      </div>
+    </div>
+  </section>
+
+  <script src="/app/js/jquery.min.js"></script>
+  <script src="/app/js/popper.min.js"></script>
+  <script src="/app/js/bootstrap.min.js"></script>
+  <script src="/app/js/app.js"></script>
+  <script src="/app/js/protected.js"></script>
+</body>
+</html>

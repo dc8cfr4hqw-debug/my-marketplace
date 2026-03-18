@@ -1,0 +1,361 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Register | Neura Wallet</title>
+    <link rel="stylesheet" href="app/dist/app.css" />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link href="https://fonts.googleapis.com/css2?family=Sora:wght@400;500;600;700&display=swap" rel="stylesheet" />
+    <style>
+      :root {
+        --bg-1: #030916;
+        --bg-2: #07152b;
+        --line: rgba(72, 128, 255, 0.34);
+        --line-soft: rgba(120, 157, 228, 0.22);
+        --text-main: #eaf2ff;
+        --text-muted: #97aac8;
+        --accent: #33d6ff;
+      }
+
+      * {
+        box-sizing: border-box;
+      }
+
+      body {
+        margin: 0;
+        min-height: 100vh;
+        font-family: "Sora", sans-serif;
+        color: var(--text-main);
+        background:
+          radial-gradient(760px 420px at 18% 4%, rgba(12, 96, 224, 0.22), transparent 62%),
+          radial-gradient(720px 380px at 86% 18%, rgba(57, 185, 255, 0.2), transparent 66%),
+          linear-gradient(180deg, var(--bg-2) 0%, var(--bg-1) 58%);
+      }
+
+      .auth-shell {
+        min-height: 100vh;
+        display: grid;
+        place-items: center;
+        padding: 36px 16px;
+      }
+
+      .auth-card {
+        width: 100%;
+        max-width: 980px;
+        border-radius: 24px;
+        border: 1px solid var(--line);
+        background: rgba(5, 16, 35, 0.7);
+        backdrop-filter: blur(16px);
+        display: grid;
+        grid-template-columns: 1.05fr 1fr;
+        overflow: hidden;
+        box-shadow: 0 20px 64px rgba(2, 8, 22, 0.55);
+      }
+
+      .auth-info {
+        padding: 46px 42px;
+        border-right: 1px solid var(--line-soft);
+        position: relative;
+      }
+
+      .auth-info::after {
+        content: "";
+        position: absolute;
+        inset: 0;
+        background: linear-gradient(120deg, rgba(52, 215, 255, 0.08), transparent 55%);
+        pointer-events: none;
+      }
+
+      .brand {
+        display: inline-flex;
+        align-items: center;
+        gap: 12px;
+        color: #63b2ff;
+        font-size: 28px;
+        font-weight: 700;
+        text-decoration: none;
+        margin-bottom: 24px;
+      }
+
+      .brand img {
+        width: 36px;
+        height: 36px;
+      }
+
+      .auth-info h1 {
+        font-size: clamp(28px, 4vw, 42px);
+        line-height: 1.12;
+        margin: 0 0 14px;
+      }
+
+      .auth-info p {
+        color: var(--text-muted);
+        margin: 0 0 28px;
+        max-width: 420px;
+      }
+
+      .feature-list {
+        margin: 0;
+        padding: 0;
+        list-style: none;
+        display: grid;
+        gap: 12px;
+      }
+
+      .feature-list li {
+        display: flex;
+        gap: 12px;
+        color: #d8e4f6;
+        font-size: 14px;
+      }
+
+      .feature-list li::before {
+        content: "";
+        width: 9px;
+        height: 9px;
+        border-radius: 999px;
+        background: linear-gradient(135deg, #31d6ff, #4c6fff);
+        margin-top: 6px;
+        flex: 0 0 auto;
+      }
+
+      .auth-form-wrap {
+        padding: 46px 40px;
+      }
+
+      .step-header {
+        margin-bottom: 20px;
+      }
+
+      .step-pill {
+        display: inline-block;
+        font-size: 11px;
+        font-weight: 600;
+        letter-spacing: 0.08em;
+        text-transform: uppercase;
+        color: #9bc5ff;
+        margin-bottom: 8px;
+      }
+
+      .step-title {
+        margin: 0;
+        font-size: 29px;
+        line-height: 1.16;
+      }
+
+      .step-subtitle {
+        margin: 10px 0 0;
+        color: var(--text-muted);
+        font-size: 14px;
+      }
+
+      .progress {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 8px;
+        margin-bottom: 18px;
+      }
+
+      .progress span {
+        height: 4px;
+        border-radius: 999px;
+        background: rgba(111, 138, 182, 0.24);
+      }
+
+      .progress span.active {
+        background: linear-gradient(90deg, #33d6ff, #4779ff);
+      }
+
+      .register-step {
+        display: grid;
+        gap: 14px;
+      }
+
+      .register-step.hidden {
+        display: none;
+      }
+
+      .field {
+        display: grid;
+        gap: 8px;
+      }
+
+      .field label {
+        font-size: 13px;
+        color: #bfd2ee;
+      }
+
+      .field input {
+        height: 48px;
+        border-radius: 12px;
+        border: 1px solid rgba(126, 158, 221, 0.34);
+        background: rgba(8, 23, 47, 0.7);
+        color: #f2f7ff;
+        padding: 0 14px;
+        outline: none;
+        transition: border-color 0.2s ease, box-shadow 0.2s ease;
+      }
+
+      .field input:focus {
+        border-color: rgba(70, 200, 255, 0.9);
+        box-shadow: 0 0 0 3px rgba(51, 214, 255, 0.18);
+      }
+
+      .inline-verify {
+        display: grid;
+        gap: 10px;
+      }
+
+      .verify-row {
+        display: grid;
+        grid-template-columns: 1fr auto;
+        gap: 10px;
+      }
+
+      .btn {
+        height: 48px;
+        border-radius: 12px;
+        border: 1px solid transparent;
+        padding: 0 18px;
+        font-family: inherit;
+        font-weight: 600;
+        cursor: pointer;
+        transition: transform 0.15s ease, opacity 0.15s ease;
+      }
+
+      .btn:disabled {
+        opacity: 0.66;
+        cursor: not-allowed;
+      }
+
+      .btn:active {
+        transform: translateY(1px);
+      }
+
+      .btn-primary {
+        color: #051632;
+        background: linear-gradient(120deg, #34d7ff, #5f95ff);
+      }
+
+      .btn-secondary {
+        background: rgba(10, 30, 58, 0.8);
+        border-color: rgba(126, 158, 221, 0.4);
+        color: #dbe9ff;
+      }
+
+      .status {
+        min-height: 20px;
+        font-size: 12px;
+        color: #8de4b6;
+      }
+
+      .auth-foot {
+        margin-top: 14px;
+        font-size: 13px;
+        color: #95abc9;
+      }
+
+      .auth-foot a {
+        color: var(--accent);
+        text-decoration: none;
+      }
+
+      @media (max-width: 980px) {
+        .auth-card {
+          grid-template-columns: 1fr;
+          max-width: 560px;
+        }
+
+        .auth-info {
+          border-right: 0;
+          border-bottom: 1px solid var(--line-soft);
+          padding: 34px 28px;
+        }
+
+        .auth-form-wrap {
+          padding: 34px 28px;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <main class="auth-shell">
+      <section class="auth-card register" aria-label="Register">
+        <aside class="auth-info">
+          <a class="brand" href="/index.html">
+            <img src="/assets/images/logo/favicon.png" alt="Neura" />
+            <span>Neura</span>
+          </a>
+          <h1>Create your account and verify in seconds.</h1>
+          <p>Start with basic details, confirm your email OTP, then access your dashboard instantly.</p>
+          <ul class="feature-list">
+            <li>Secure email OTP verification for every new signup.</li>
+            <li>Fast setup with only essential information.</li>
+            <li>Direct login and redirect to your dashboard after registration.</li>
+          </ul>
+        </aside>
+
+        <div class="auth-form-wrap">
+          <div class="progress" aria-hidden="true">
+            <span id="registerProgress1" class="active"></span>
+            <span id="registerProgress2"></span>
+          </div>
+
+          <form id="neuraRegisterForm" class="content-tab" autocomplete="off">
+            <div id="stepBasic" class="register-step">
+              <div class="step-header">
+                <span class="step-pill">Step 1 of 2</span>
+                <h2 class="step-title">Basic Info</h2>
+                <p class="step-subtitle">Enter your email and password to continue.</p>
+              </div>
+
+              <div class="field">
+                <label for="registerEmail">Email</label>
+                <input id="registerEmail" type="email" required placeholder="you@example.com" />
+              </div>
+
+              <div class="field">
+                <label for="registerPassword">Password</label>
+                <input id="registerPassword" type="password" required minlength="8" placeholder="At least 8 characters" />
+              </div>
+
+              <div class="field">
+                <label for="registerPasswordConfirm">Confirm password</label>
+                <input id="registerPasswordConfirm" type="password" required minlength="8" placeholder="Repeat your password" />
+              </div>
+
+              <button id="goToVerifyBtn" type="button" class="btn btn-primary">Continue</button>
+            </div>
+
+            <div id="stepVerify" class="register-step hidden">
+              <div class="step-header">
+                <span class="step-pill">Step 2 of 2</span>
+                <h2 class="step-title">Email Verification</h2>
+                <p class="step-subtitle">Enter the 6-digit code sent to your email.</p>
+              </div>
+
+              <div class="inline-verify">
+                <div class="verify-row">
+                  <input id="verifyCodeInput" type="text" inputmode="numeric" maxlength="6" placeholder="000000" />
+                  <button id="sendCodeBtn" type="button" class="btn btn-secondary">Send Code</button>
+                </div>
+                <button id="verifyCodeBtn" type="button" class="btn btn-secondary">Verify Email</button>
+                <div id="verifyStatus" class="status"></div>
+              </div>
+
+              <button type="submit" class="btn btn-primary">Create account</button>
+              <button id="goBackBtn" type="button" class="btn btn-secondary">Back</button>
+            </div>
+          </form>
+
+          <p class="auth-foot">Already have an account? <a href="/login.html">Log in</a></p>
+        </div>
+      </section>
+    </main>
+
+    <script src="app/js/auth.js"></script>
+  </body>
+</html>

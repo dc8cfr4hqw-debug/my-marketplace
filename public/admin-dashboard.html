@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Neura Admin Dashboard</title>
+  <link rel="stylesheet" href="/app/dist/app.css" />
+  <style>
+    body { background:#05070c; color:#e8f0ff; }
+    .admin-page { padding:24px 0 50px; }
+    .admin-head { display:flex; justify-content:space-between; align-items:center; gap:10px; margin-bottom:16px; flex-wrap:wrap; }
+    .admin-widgets { display:grid; grid-template-columns:repeat(4,minmax(0,1fr)); gap:12px; margin-bottom:16px; }
+    .widget, .table-wrap { background:rgba(12,20,33,.85); border:1px solid rgba(87,113,151,.35); border-radius:14px; }
+    .widget { padding:14px; }
+    .widget .label { color:#9db2cc; font-size:12px; }
+    .widget .value { font-size:26px; font-weight:800; margin-top:4px; }
+    .table-wrap { padding:10px; overflow:auto; }
+    table { width:100%; border-collapse:collapse; min-width:1020px; }
+    th, td { border-bottom:1px solid #1f3047; padding:9px 8px; text-align:left; font-size:13px; }
+    th { color:#93a9c4; position:sticky; top:0; background:#0b1421; }
+    .search { min-height:42px; width:280px; border-radius:10px; border:1px solid #2f445f; background:#111e30; color:#e8f0ff; padding:0 12px; }
+    @media (max-width:1200px){ .admin-widgets { grid-template-columns:repeat(2,minmax(0,1fr)); } }
+    @media (max-width:760px){ .admin-widgets { grid-template-columns:1fr; } .search { width:100%; } }
+  </style>
+</head>
+<body>
+  <div class="admin-page container">
+    <div class="admin-head">
+      <div>
+        <h3 style="margin:0;">Admin Dashboard</h3>
+        <p style="margin:4px 0 0;color:#97adca;">Users, balances, activity and funding metrics.</p>
+      </div>
+      <input id="adminSearch" class="search" type="search" placeholder="Search email, name, phone" />
+    </div>
+
+    <section class="admin-widgets">
+      <article class="widget"><div class="label">Total Users</div><div class="value" id="wTotalUsers">0</div></article>
+      <article class="widget"><div class="label">Total USD Balance</div><div class="value" id="wUsd">$0.00</div></article>
+      <article class="widget"><div class="label">Total BTC Balance</div><div class="value" id="wBtc">0.00000000</div></article>
+      <article class="widget"><div class="label">Total Deposits</div><div class="value" id="wDep">0</div></article>
+    </section>
+
+    <section class="table-wrap">
+      <table>
+        <thead>
+          <tr>
+            <th>ID</th><th>Email</th><th>Name</th><th>Phone</th><th>Role</th><th>USD Balance</th><th>BTC Balance</th><th>Assets</th><th>Trades</th><th>Deposits</th><th>Withdrawals</th><th>Created</th>
+          </tr>
+        </thead>
+        <tbody id="adminUsersBody"></tbody>
+      </table>
+    </section>
+  </div>
+
+  <script src="/app/js/admin-dashboard.js"></script>
+</body>
+</html>

@@ -1,0 +1,178 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <script>
+    if (localStorage.getItem("jwt")) {
+      window.location.href = "index.html";
+    }
+  </script>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Inscription - Payvia</title>
+  <link rel="stylesheet" href="css/style2.css" />
+  <link rel="stylesheet" href="css/register.css" />
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script src="https://unpkg.com/feather-icons"></script>
+</head>
+<body class="bg-[#0f0f0f] text-white font-sans relative overflow-x-hidden">
+  <script>
+    window.__PAYVIA_API_BASE = "https://soldora-backend-backend.up.railway.app";
+  </script>
+
+  <div class="absolute inset-0 -z-10 bg-gradient-to-br from-[#2e0249] via-[#57059e] to-[#0f0f0f] blur-2xl opacity-30"></div>
+
+  <div class="w-full flex flex-col items-center pt-8 header-animate">
+    <div class="text-2xl font-bold text-center mb-1">Bienvenue chez <span class="text-cyan-400">Payvia</span></div>
+    <div class="text-gray-300 text-base font-medium mb-4">Cree ton compte pour acceder a toutes les fonctionnalites.</div>
+    <div class="w-[90%] max-w-md mb-4">
+      <div class="progress-bar-container h-2 rounded-full bg-white/10">
+        <div id="progressBar" class="progress-bar h-2 rounded-full bg-gradient-to-r from-cyan-400 via-fuchsia-500 to-pink-500 transition-all" style="width: 14%;"></div>
+      </div>
+    </div>
+  </div>
+
+  <main class="w-full flex flex-col items-center mt-10">
+    <section class="register-step glass card-animate form-section-custom w-[90%] max-w-md mx-auto mt-1 flex flex-col gap-4 px-6 py-8 rounded-2xl shadow-2xl" data-step="1">
+      <form id="step1Form" autocomplete="off" class="flex flex-col gap-4">
+        <label for="registerEmail" class="text-base font-semibold mb-1 text-white">Votre e-mail</label>
+        <div class="relative mb-2">
+          <input type="email" id="registerEmail" required class="input-glass pr-12 text-base" placeholder="email@example.com"/>
+          <i data-feather="mail" class="input-icon"></i>
+        </div>
+        <button type="submit" class="btn-action w-full text-base font-semibold flex items-center justify-center gap-2 py-3 mt-2">
+          Creer un compte
+        </button>
+        <div class="text-xs text-center text-gray-400 leading-tight mt-1 px-2">
+          En creant un compte, j'accepte les <a href="terms.html" class="text-cyan-400 underline">Conditions d'utilisation</a> et la <a href="privacy2.html" class="text-cyan-400 underline">Politique de confidentialite</a> de Payvia.
+        </div>
+        <div class="w-full text-center mt-3">
+          <span class="text-gray-300">Deja inscrit ?</span>
+          <a href="login.html" class="text-cyan-400 font-semibold underline ml-1">Connexion</a>
+        </div>
+      </form>
+    </section>
+
+    <section class="register-step glass p-6 rounded-2xl card-animate form-section-custom w-full max-w-md flex flex-col gap-6 hidden" data-step="2">
+      <div class="text-2xl font-bold">Verifiez votre e-mail</div>
+      <div class="text-sm text-gray-300 mb-1">Un code a 6 chiffres a ete envoye a <span id="displayEmail"></span>.</div>
+      <form id="step2Form" class="flex flex-col gap-4" autocomplete="off">
+        <div class="relative">
+          <input type="text" maxlength="6" pattern="\d*" inputmode="numeric" id="registerCode" required class="input-glass pl-12 peer min-h-[48px] text-base" placeholder=" " />
+          <label for="registerCode" class="label-glass">Code de verification</label>
+          <i data-feather="key" class="input-icon"></i>
+        </div>
+        <button type="submit" class="btn-action w-full flex items-center justify-center gap-2"><span>Suivant</span></button>
+        <div class="text-xs text-gray-400 text-center mt-2">
+          Vous n'avez pas recu de code ? <button id="resendCodeBtn" type="button" class="text-cyan-400 underline">Renvoyer</button>
+        </div>
+        <div id="codeError" class="text-pink-400 text-xs h-4 transition-all duration-300"></div>
+      </form>
+    </section>
+
+    <section class="register-step glass p-6 rounded-2xl card-animate form-section-custom w-full max-w-md flex flex-col gap-6 hidden" data-step="3">
+      <div class="text-2xl font-bold">Creer un mot de passe</div>
+      <form id="step3Form" class="flex flex-col gap-4" autocomplete="off">
+        <div class="relative">
+          <input type="password" maxlength="26" minlength="8" id="registerPwd" required class="input-glass peer pr-12" placeholder=" " />
+          <label for="registerPwd" class="label-glass">Mot de passe</label>
+          <button type="button" id="toggleRegisterPwd" tabindex="-1" class="absolute right-3 top-1/2 -translate-y-1/2 text-cyan-400 focus:outline-none"><i data-feather="eye"></i></button>
+        </div>
+        <ul class="text-xs text-gray-300 flex flex-col gap-1 mb-2 password-rules">
+          <li id="rule-length">8 a 26 caracteres</li>
+          <li id="rule-digit">Au moins un chiffre</li>
+          <li id="rule-upper">Au moins une lettre majuscule</li>
+        </ul>
+        <button type="submit" class="btn-action w-full flex items-center justify-center gap-2"><span>Suivant</span></button>
+      </form>
+    </section>
+
+    <section class="register-step glass p-6 rounded-2xl card-animate form-section-custom w-full max-w-md flex flex-col gap-6 hidden" data-step="4">
+      <div class="text-2xl font-bold">Avez-vous un code parrain ?</div>
+      <div class="flex gap-4 justify-center mb-2">
+        <button type="button" class="btn-glow-secondary parrain-btn" data-answer="oui"><i data-feather="check-circle"></i> Oui</button>
+        <button type="button" class="btn-glow-secondary parrain-btn" data-answer="non"><i data-feather="x-circle"></i> Non</button>
+      </div>
+      <form id="step4Form" class="flex flex-col gap-3 mt-2">
+        <div id="parrainCodeContainer" class="relative hidden">
+          <input type="text" id="parrainCode" class="input-glass peer" placeholder=" " maxlength="12"/>
+          <label for="parrainCode" class="label-glass">Code parrain</label>
+          <i data-feather="gift" class="input-icon"></i>
+        </div>
+        <button type="submit" class="btn-action w-full flex items-center justify-center gap-2 mt-2"><span>Suivant</span></button>
+      </form>
+    </section>
+
+    <section class="register-step glass p-6 rounded-2xl card-animate form-section-custom w-full max-w-md flex flex-col gap-6 hidden" data-step="5">
+      <div class="text-2xl font-bold">Selectionnez votre pays de residence</div>
+      <form id="step5Form" class="flex flex-col gap-4" autocomplete="off">
+        <select id="countrySelect" required class="input-glass"></select>
+        <div class="text-xs text-gray-400 mt-1">
+          En cliquant sur <span class="font-semibold text-cyan-400">Continuer</span>, vous acceptez les <a href="#" class="underline text-cyan-400" id="openTerms">Conditions generales</a>.
+        </div>
+        <button type="submit" class="btn-action w-full flex items-center justify-center gap-2 mt-2"><span>Continuer</span></button>
+      </form>
+    </section>
+
+    <section class="register-step glass p-6 rounded-2xl card-animate form-section-custom w-full max-w-md flex flex-col gap-6 hidden" data-step="6">
+      <div class="text-2xl font-bold">Informations personnelles</div>
+      <form id="step6Form" class="flex flex-col gap-4" autocomplete="off">
+        <div class="flex gap-2">
+          <div class="relative w-1/2">
+            <input type="text" id="prenom" required maxlength="30" class="input-glass peer" placeholder=" " pattern="^[A-Za-zÀ-ÿ -]{1,30}$" />
+            <label for="prenom" class="label-glass">Prenom</label>
+          </div>
+          <div class="relative w-1/2">
+            <input type="text" id="nom" required maxlength="30" class="input-glass peer" placeholder=" " pattern="^[A-Za-zÀ-ÿ -]{1,30}$" />
+            <label for="nom" class="label-glass">Nom</label>
+          </div>
+        </div>
+
+        <div class="relative w-full">
+          <input type="tel" id="telephone" required maxlength="10" minlength="10" class="input-glass peer" pattern="^(06|07)[0-9]{8}$" autocomplete="tel" />
+          <label for="telephone" class="label-glass">Numero de telephone</label>
+        </div>
+
+        <div class="relative">
+          <input type="date" id="dateNaissance" required class="input-glass peer" placeholder=" " max="2099-12-31"/>
+          <label for="dateNaissance" class="label-glass">Date de naissance</label>
+        </div>
+        <div class="relative">
+          <input type="text" id="adresse" required maxlength="30" class="input-glass peer" placeholder=" " />
+          <label for="adresse" class="label-glass">Adresse de residence</label>
+        </div>
+        <div id="moreAddressFields" class="flex flex-col gap-2">
+          <div class="relative">
+            <input type="text" id="postal" class="input-glass peer" placeholder=" " maxlength="10" pattern="^[0-9]{4,10}$"/>
+            <label for="postal" class="label-glass">Code postal (facultatif)</label>
+          </div>
+          <div class="relative">
+            <input type="text" id="ville" class="input-glass peer" placeholder=" " maxlength="30" pattern="^[A-Za-zÀ-ÿ -]{1,30}$"/>
+            <label for="ville" class="label-glass">Ville</label>
+          </div>
+        </div>
+        <button type="submit" class="btn-action w-full flex items-center justify-center gap-2 mt-2">
+          <span id="registerLoader" class="hidden animate-spin border-2 border-cyan-400 border-t-transparent rounded-full w-6 h-6 mr-2"></span>
+          <span>Terminer</span>
+        </button>
+        <div id="registerError" class="text-xs text-pink-400 pt-1 min-h-[18px]"></div>
+      </form>
+    </section>
+
+    <section class="register-step glass p-6 rounded-2xl card-animate form-section-custom w-full max-w-md flex flex-col items-center gap-6 hidden" data-step="7">
+      <div class="flex flex-col items-center gap-2">
+        <div class="w-20 h-20 rounded-full bg-green-500 flex items-center justify-center mb-2">
+          <i data-feather="check" class="w-10 h-10"></i>
+        </div>
+        <div class="text-2xl font-bold">Bienvenue a bord !</div>
+        <div class="text-sm text-gray-300 text-center">Votre compte a bien ete cree.<br>Vous pouvez maintenant acceder a votre espace personnel.</div>
+      </div>
+      <a href="index.html" class="btn-action w-full mt-4 flex items-center justify-center gap-2">
+        <span>Acceder a mon espace</span>
+      </a>
+    </section>
+  </main>
+
+  <script src="js/register.js?v=20260305-4"></script>
+  <script>feather.replace()</script>
+</body>
+</html>
